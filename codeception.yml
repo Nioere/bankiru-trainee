@@ -1,0 +1,35 @@
+namespace: Tests
+support_namespace: Support
+# suite config
+suites:
+    api:
+        actor: ApiTester
+        path: .
+        modules:
+            enabled:
+            - Symfony:
+                  app_path: 'src'
+                  environment: 'test'
+            - REST:
+                  url: /api/v1
+                  depends: Symfony
+        step_decorators:
+            - \Codeception\Step\AsJson
+
+paths:
+    tests: tests
+    output: tests/_output
+    data: tests/Support/Data
+    support: tests/Support
+
+settings:
+    shuffle: false
+    lint: true
+
+coverage:
+    enabled: true
+    show_uncovered: true
+    include:
+        - src/*
+    exclude:
+        - src/Kernel.php

@@ -1,0 +1,476 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "OpenAPI для PetStore проекта",
+    "version": "1.1.0"
+  },
+  "paths": {
+    "/api/v1/pet": {
+      "get": {
+        "summary": "Список питомцев",
+        "operationId": "petList",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/perPage"
+          },
+          {
+            "$ref": "#/components/parameters/sort"
+          },
+          {
+            "$ref": "#/components/parameters/ids"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/pet"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Питомец"
+        ]
+      },
+      "post": {
+        "summary": "Добавить питомца",
+        "operationId": "petAdd",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pet"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pet"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Питомец"
+        ]
+      }
+    },
+    "/api/v1/pet/{id}": {
+      "get": {
+        "summary": "Детальная информация о питомце",
+        "operationId": "petView",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pet"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Питомец"
+        ]
+      },
+      "post": {
+        "summary": "Редактирование питомца",
+        "operationId": "petEdit",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pet"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pet"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Питомец"
+        ]
+      },
+      "delete": {
+        "summary": "Удаление питомца",
+        "operationId": "petDelete",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Питомец"
+        ]
+      }
+    },
+    "/api/v1/user": {
+      "get": {
+        "summary": "Список пользователей",
+        "operationId": "userList",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/perPage"
+          },
+          {
+            "$ref": "#/components/parameters/sort"
+          },
+          {
+            "$ref": "#/components/parameters/ids"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/user"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Пользователь"
+        ]
+      },
+      "post": {
+        "summary": "Добавить пользователя",
+        "operationId": "userAdd",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Пользователь"
+        ]
+      }
+    },
+    "/api/v1/user/{id}": {
+      "get": {
+        "summary": "Детальная информация о пользователе",
+        "operationId": "userView",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Пользователь"
+        ]
+      },
+      "post": {
+        "summary": "Редактирование пользователя",
+        "operationId": "userEdit",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Пользователь"
+        ]
+      },
+      "delete": {
+        "summary": "Удаление пользователя",
+        "operationId": "userDelete",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Пользователь"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "user": {
+        "title": "Пользователь",
+        "properties": {
+          "id": {
+            "nullable": true,
+            "title": "ID дизайна",
+            "type": "integer",
+            "example": 1
+          },
+          "email": {
+            "nullable": false,
+            "title": "Почта пользователя",
+            "type": "string",
+            "example": "igor@gmail.com"
+          },
+          "name": {
+            "nullable": false,
+            "title": "Имя пользователя",
+            "type": "string",
+            "example": "Игорь"
+          },
+          "createdAt": {
+            "nullable": false,
+            "title": "Дата и время создания",
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "nullable": true,
+            "title": "Дата и время обновления",
+            "type": "string",
+            "format": "date-time"
+          },
+          "petIds": {
+            "title": "Идентификаторы питомцев привязанных к пользователю (хозяину)",
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "pet": {
+        "title": "Питомец",
+        "properties": {
+          "id": {
+            "nullable": false,
+            "title": "ID питомца",
+            "type": "integer",
+            "example": 1
+          },
+          "userId": {
+            "nullable": false,
+            "title": "ID хозяина питомца",
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "nullable": false,
+            "title": "Имя питомца",
+            "type": "string",
+            "example": "Пушистик"
+          },
+          "description": {
+            "nullable": true,
+            "title": "Описание питомца",
+            "type": "string",
+            "example": "Взрослый пушистый серый кот"
+          },
+          "createdAt": {
+            "nullable": false,
+            "title": "Дата и время создания",
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "nullable": true,
+            "title": "Дата и время обновления",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "meta": {
+        "title": "Мета",
+        "properties": {
+          "total": {
+            "nullable": false,
+            "title": "Всего записей",
+            "type": "integer",
+            "example": 100
+          },
+          "page": {
+            "nullable": false,
+            "title": "Текущая страница",
+            "type": "integer",
+            "example": 1
+          },
+          "perPage": {
+            "nullable": false,
+            "title": "Отображать постранично",
+            "type": "integer",
+            "example": 10
+          }
+        }
+      }
+    },
+    "parameters": {
+      "id": {
+        "name": "id",
+        "in": "path",
+        "description": "ID",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "example": 1
+        }
+      },
+      "perPage": {
+        "name": "perPage",
+        "in": "query",
+        "description": "Кол-во элементов выводимое на странице",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "example": 1
+        }
+      },
+      "page": {
+        "name": "page",
+        "in": "query",
+        "description": "Показать страницу",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "example": 1
+        }
+      },
+      "sort": {
+        "name": "sort",
+        "in": "query",
+        "description": "Сортировка по возрастанию/по убыванию с указанием поля",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "example": "-id"
+        }
+      },
+      "ids": {
+        "name": "ids",
+        "in": "query",
+        "description": "Фильтр по параметру ids",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      }
+    }
+  }
+}
