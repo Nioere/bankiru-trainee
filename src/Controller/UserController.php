@@ -28,21 +28,35 @@ class UserController extends AbstractController
     #[Route('', name: 'user_index', methods: ['GET'])]
     public function index(Request $request): JsonResponse
     {
-        // Получаем репозиторий User через EntityManager
-        $userRepository = $this->entityManager->getRepository(User::class);
+        $repository = $this->entityManager->getRepository(User::class);
 
-        // Получаем параметры запроса и преобразуем их в целые числа
-        $page = (int) $request->query->get('page', 1);
-        $perPage = (int) $request->query->get('perPage', 10);
-        $sort = $request->query->get('sort', 'id');
+        $page = $request->query->getInt('page', 1);
+        $perPage = $request->query->getInt('perPage', 10);
+        $sort = $request->query->get('sort', null);
+        $ids = $request->query->all('ids');
 
-        // Вызываем метод findAllWithPetIds, который должен быть определён в UserRepository
-        $usersWithPetIds = $userRepository->findAllWithPetIds($page, $perPage, $sort);
+        $query = $repository->createQueryBuilder('u');
 
-        // Формируем данные для ответа
-        $responseData = [];
-        foreach ($usersWithPetIds as $user) {
-            $responseData[] = [
+        if ($sort) {
+            $direction = 'ASC';
+            if (str_starts_with($sort, '-')) {
+                $direction = 'DESC';
+                $sort = substr($sort, 1);
+            }
+            $query->orderBy('u.' . $sort, $direction);
+        }
+
+        if (!empty($ids)) {
+            $query->where('u.id IN (:ids)')->setParameter('ids', $ids);
+        }
+
+        $query->setFirstResult(($page - 1) * $perPage)
+            ->setMaxResults($perPage);
+
+        $users = $query->getQuery()->getResult();
+
+        $responseData = array_map(function ($user) {
+            return [
                 'id' => $user->getId(),
                 'email' => $user->getEmail(),
                 'name' => $user->getName(),
@@ -50,10 +64,11 @@ class UserController extends AbstractController
                 'updatedAt' => $user->getUpdatedAt() ? $user->getUpdatedAt()->format(DateTimeInterface::ATOM) : null,
                 'petIds' => $user->getPetIds(),
             ];
-        }
+        }, $users);
 
-        return new JsonResponse($responseData);
+        return $this->json($responseData);
     }
+
 
     #[Route('/{id}', name: 'user_show', methods: ['GET'])]
     public function show(int $id): JsonResponse
@@ -76,6 +91,8 @@ class UserController extends AbstractController
         $user->setEmail($data['email']);
         $user->setName($data['name']);
         $user->setCreatedAt(new DateTime());
+        $user->setUpdatedAt(new DateTime());
+        $user->setPetIds($data['petIds']);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -96,6 +113,8 @@ class UserController extends AbstractController
 
         $user->setEmail($data['email']);
         $user->setName($data['name']);
+        $user->setUpdatedAt(new DateTime());
+        $user->setPetIds($data['petIds']);
 
         $newPetIds = $data['petIds'] ?? [];
 
@@ -119,7 +138,14 @@ class UserController extends AbstractController
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        return new Response(null, Response::HTTP_NO_CONTENT);
+        return new JsonResponse([
+            'id' => $user->getId(),
+            'email' => $user->getEmail(),
+            'name' => $user->getName(),
+            'createdAt' => $user->getCreatedAt()->format(DateTime::ISO8601),
+            'updatedAt' => $user->getUpdatedAt()->format(DateTime::ISO8601),
+            'petIds' => $user->getPetIds(),
+        ], Response::HTTP_OK);
     }
 
     #[Route('/{id}', name: 'user_delete', methods: ['DELETE'])]

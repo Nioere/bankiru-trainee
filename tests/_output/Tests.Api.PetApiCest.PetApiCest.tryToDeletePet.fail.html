@@ -589,7 +589,7 @@ header .container { display: flex; justify-content: space-between; }
             <span class="icon icon-close"><svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1408 960V832q0-26-19-45t-45-19H448q-26 0-45 19t-19 45v128q0 26 19 45t45 19h896q26 0 45-19t19-45zm256-544v960q0 119-84.5 203.5T1376 1664H416q-119 0-203.5-84.5T128 1376V416q0-119 84.5-203.5T416 128h960q119 0 203.5 84.5T1664 416z"/></svg></span>
         <span class="icon icon-open"><svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1408 960V832q0-26-19-45t-45-19h-320V448q0-26-19-45t-45-19H832q-26 0-45 19t-19 45v320H448q-26 0-45 19t-19 45v128q0 26 19 45t45 19h320v320q0 26 19 45t45 19h128q26 0 45-19t19-45v-320h320q26 0 45-19t19-45zm256-544v960q0 119-84.5 203.5T1376 1664H416q-119 0-203.5-84.5T128 1376V416q0-119 84.5-203.5T416 128h960q119 0 203.5 84.5T1664 416z"/></svg></span>
     
-            <span class="trace-class"><abbr title=""></abbr></span><span class="trace-method">in_array</span><span class="trace-arguments">(97, <em>null</em>)</span>    
+            <span class="trace-class"><abbr title=""></abbr></span><span class="trace-method">in_array</span><span class="trace-arguments">(100, <em>null</em>)</span>    
                     <span class="block trace-file-path">
             in
             <a href="file:///var/www/src/Controller/PetController.php#L100">
@@ -1634,7 +1634,7 @@ TypeError:
 in_array(): Argument #2 ($haystack) must be of type array, null given
 
   at src/Controller/PetController.php:100
-  at in_array(97, null)
+  at in_array(100, null)
      (src/Controller/PetController.php:100)
   at App\Controller\PetController-&gt;create(object(Request))
      (vendor/symfony/http-kernel/HttpKernel.php:178)
@@ -1648,9 +1648,9 @@ in_array(): Argument #2 ($haystack) must be of type array, null given
      (vendor/codeception/module-symfony/src/Codeception/Lib/Connector/Symfony.php:55)
   at Codeception\Lib\Connector\Symfony-&gt;doRequest(object(Request))
      (vendor/symfony/browser-kit/AbstractBrowser.php:369)
-  at Symfony\Component\BrowserKit\AbstractBrowser-&gt;request('POST', 'http://localhost/api/v1/pet', array(), array(), array('HTTP_USER_AGENT' => 'Symfony BrowserKit', 'HTTP_CONTENT_TYPE' => 'application/json', 'CONTENT_TYPE' => 'application/json', 'REQUEST_TIME' => 1707162265, 'REQUEST_TIME_FLOAT' => 1707162265.788873, 'HTTP_HOST' => 'localhost', 'HTTPS' => false), '{&quot;userId&quot;:1,&quot;name&quot;:&quot;Test Pet&quot;,&quot;description&quot;:&quot;This is a test pet&quot;,&quot;createdAt&quot;:&quot;2024-02-04T04:29:00Z&quot;,&quot;updatedAt&quot;:&quot;2024-02-04T04:29:00Z&quot;}', true)
+  at Symfony\Component\BrowserKit\AbstractBrowser-&gt;request('POST', 'http://localhost/api/v1/pet', array(), array(), array('HTTP_USER_AGENT' => 'Symfony BrowserKit', 'HTTP_CONTENT_TYPE' => 'application/json', 'CONTENT_TYPE' => 'application/json', 'REQUEST_TIME' => 1707162267, 'REQUEST_TIME_FLOAT' => 1707162267.614755, 'HTTP_HOST' => 'localhost', 'HTTPS' => false), '{&quot;userId&quot;:1,&quot;name&quot;:&quot;Test Pet&quot;,&quot;description&quot;:&quot;This is a test pet&quot;,&quot;createdAt&quot;:&quot;2024-02-04T04:29:00Z&quot;,&quot;updatedAt&quot;:&quot;2024-02-04T04:29:00Z&quot;}', true)
      (vendor/codeception/lib-innerbrowser/src/Codeception/Lib/InnerBrowser.php:243)
-  at Codeception\Lib\InnerBrowser-&gt;clientRequest('POST', '/api/v1/pet', array(), array(), array('HTTP_CONTENT_TYPE' => 'application/json', 'CONTENT_TYPE' => 'application/json', 'REQUEST_TIME' => 1707162265, 'REQUEST_TIME_FLOAT' => 1707162265.788873), '{&quot;userId&quot;:1,&quot;name&quot;:&quot;Test Pet&quot;,&quot;description&quot;:&quot;This is a test pet&quot;,&quot;createdAt&quot;:&quot;2024-02-04T04:29:00Z&quot;,&quot;updatedAt&quot;:&quot;2024-02-04T04:29:00Z&quot;}')
+  at Codeception\Lib\InnerBrowser-&gt;clientRequest('POST', '/api/v1/pet', array(), array(), array('HTTP_CONTENT_TYPE' => 'application/json', 'CONTENT_TYPE' => 'application/json', 'REQUEST_TIME' => 1707162267, 'REQUEST_TIME_FLOAT' => 1707162267.614755), '{&quot;userId&quot;:1,&quot;name&quot;:&quot;Test Pet&quot;,&quot;description&quot;:&quot;This is a test pet&quot;,&quot;createdAt&quot;:&quot;2024-02-04T04:29:00Z&quot;,&quot;updatedAt&quot;:&quot;2024-02-04T04:29:00Z&quot;}')
      (vendor/codeception/lib-innerbrowser/src/Codeception/Lib/InnerBrowser.php:161)
   at Codeception\Lib\InnerBrowser-&gt;_request('POST', '/api/v1/pet', array(), array(), array(), '{&quot;userId&quot;:1,&quot;name&quot;:&quot;Test Pet&quot;,&quot;description&quot;:&quot;This is a test pet&quot;,&quot;createdAt&quot;:&quot;2024-02-04T04:29:00Z&quot;,&quot;updatedAt&quot;:&quot;2024-02-04T04:29:00Z&quot;}')
      (vendor/codeception/module-rest/src/Codeception/Module/REST.php:701)
