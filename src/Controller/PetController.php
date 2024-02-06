@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/api/v1/pet')]
 class PetController extends AbstractController
@@ -94,30 +93,30 @@ class PetController extends AbstractController
         $this->entityManager->persist($pet);
         $this->entityManager->flush();
 
-        $user = $this->entityManager->getRepository(User::class)->find($data['userId']);
-        if ($user) {
-            $petIds = $user->getPetIds();
-            if (!in_array($pet->getId(), $petIds)) {
-                $petIds[] = $pet->getId();
-                $user->setPetIds($petIds);
-                $this->entityManager->flush();
-            }
+        $petIds = $user->getPetIds();
+
+        if (($key = array_search(0, $petIds)) !== false) {
+            unset($petIds[$key]);
         }
+
+        $petIds[] = $pet->getId();
+        $user->setPetIds(array_values($petIds));
+        $this->entityManager->flush();
 
         return $this->json($pet, Response::HTTP_CREATED);
     }
 
-    #[Route('/api/v1/pet/{id}', name: 'pet_update', methods: ['POST'])]
-    public function updateOrCreate(Request $request, int $id, EntityManagerInterface $entityManager, SerializerInterface $serializer): JsonResponse
+    #[Route('/{id}', name: 'pet_update', methods: ['POST'])]
+    public function updateOrCreate(Request $request, int $id): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
-        $pet = $entityManager->getRepository(Pet::class)->find($id);
+        $pet = $this->entityManager->getRepository(Pet::class)->find($id);
 
         if (!$pet) {
-            $pet = new Pet();
+            return $this->json(['message' => 'Питомца не существует'], Response::HTTP_BAD_REQUEST);
         } else {
-            $oldUser = $entityManager->getRepository(User::class)->find($pet->getUserId());
+            $oldUser = $this->entityManager->getRepository(User::class)->find($pet->getUserId());
             if ($oldUser) {
                 $oldPetIds = $oldUser->getPetIds();
                 $key = array_search($pet->getId(), $oldPetIds);
@@ -128,39 +127,59 @@ class PetController extends AbstractController
             }
         }
 
+        $newUser = $this->entityManager->getRepository(User::class)->find($data['userId']);
+        if (!$newUser) {
+            return $this->json(['message' => 'Пользователя не существует'], Response::HTTP_BAD_REQUEST);
+        }
+
         $pet->setUserId($data['userId']);
         $pet->setName($data['name']);
         $pet->setDescription($data['description']);
         $pet->setCreatedAt(new DateTime($data['createdAt']));
         $pet->setUpdatedAt(new DateTime($data['updatedAt']));
 
-        $entityManager->persist($pet);
-        $entityManager->flush();
+        $this->entityManager->persist($pet);
+        $this->entityManager->flush();
 
-        $newUser = $entityManager->getRepository(User::class)->find($data['userId']);
         $newPetIds = $newUser->getPetIds();
-        $newPetIds[] = $pet->getId();
-        $newUser->setPetIds($newPetIds);
-        $entityManager->flush();
 
-        $responseData = $serializer->serialize($pet, 'json');
+        if (($key = array_search(0, $newPetIds)) !== false) {
+            unset($newPetIds[$key]);
+        }
 
-        return new JsonResponse($responseData, Response::HTTP_CREATED, [], true);
+        if (!in_array($pet->getId(), $newPetIds)) {
+            $newPetIds[] = $pet->getId();
+        }
+
+        $newUser->setPetIds(array_values($newPetIds));
+        $this->entityManager->flush();
+
+        return $this->json($pet, Response::HTTP_CREATED);
     }
+
 
     #[Route('/{id}', name: 'pet_delete', methods: ['DELETE'])]
     public function delete(int $id): JsonResponse
     {
         $pet = $this->entityManager->getRepository(Pet::class)->find($id);
 
-        $user = $this->entityManager->getRepository(User::class)->find($pet->getUserId());
-        $petIds = $user->getPetIds();
-        $key = array_search($id, $petIds);
-        if (false !== $key) {
-            unset($petIds[$key]);
+        if (!$pet) {
+            return $this->json(['error' => 'Питомца не существует'], Response::HTTP_NOT_FOUND);
         }
-        $user->setPetIds($petIds);
-        $this->entityManager->flush();
+
+        $userId = $pet->getUserId();
+        if ($userId) {
+            $user = $this->entityManager->getRepository(User::class)->find($userId);
+            if ($user) {
+                $petIds = $user->getPetIds();
+                $key = array_search($id, $petIds);
+                if (false !== $key) {
+                    unset($petIds[$key]);
+                }
+                $user->setPetIds($petIds);
+                $this->entityManager->flush();
+            }
+        }
 
         $this->entityManager->remove($pet);
         $this->entityManager->flush();

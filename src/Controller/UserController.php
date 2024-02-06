@@ -76,7 +76,7 @@ class UserController extends AbstractController
         $user = $this->entityManager->getRepository(User::class)->find($id);
 
         if (!$user) {
-            throw $this->createNotFoundException('User not found');
+            throw $this->createNotFoundException('Пользователя не существует');
         }
 
         return $this->json($user);
