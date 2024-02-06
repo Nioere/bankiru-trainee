@@ -14,7 +14,18 @@ make composer
 make migrate
 ```
 
+Создаем БД для тестов
+```shell
+make test-create
+```
+
+Выполняем миграцию тестовой БД
+```shell
+make test-migrate
+```
+
 OpenApi схема методов доступна по ссылке http://localhost:8080/
+
 
 Запуск api тестов:
 ```shell

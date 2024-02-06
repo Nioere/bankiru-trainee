@@ -11,6 +11,12 @@ diff:
 migrate:
 	$(DOCKER_PHP_FPM) $(PHP) bin/console doctrine:migrations:migrate
 
+test-create:
+	docker-compose exec php-fpm php bin/console doctrine:database:create --env=test
+
+test-migrate:
+	docker-compose exec php-fpm php bin/console doctrine:migrations:migrate --env=test
+
 tests-api:
 	docker-compose exec php-fpm sh -c "DATABASE_URL='postgresql://app:!ChangeMe!@database:5432/app' ./vendor/bin/codecept run tests/api/"
 
