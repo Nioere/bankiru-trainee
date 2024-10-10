@@ -1,48 +1,50 @@
-## Запуск проекта
-Запускаем docker
+## Installation and Setup
+
+Start docker
 ```shell
 make up
 ```
 
-Устанавливаем зависимости composer
+Install composer dependencies
 ```shell
 make composer
 ```
 
-Выполняем миграции
+Perform migrations
 ```shell
 make migrate
 ```
 
-Создаем БД для тестов
+Create the database for the tests
 ```shell
 make test-create
 ```
 
-Выполняем миграцию тестовой БД
+Migrate the test database
 ```shell
 make test-migrate
 ```
 
-OpenApi схема методов доступна по ссылке http://localhost:8080/
+**OpenApi method schema is available at http://localhost:8080/**
 
 
-Запуск api тестов:
+Run api tests:
 ```shell
 make tests-api
 ```
 
-Команда для вывода списка персонажей рик и морти (`src/Command/GetNamesCommand.php`)
+The command to output the list of Rick and Morty characters (`src/Command/GetNamesCommand.php`)
 ```shell
 bin/console get_names 1
 ```
 
-Команда с выводом списка файлов (`src/Command/ShowFilesCommand.php`)
+File list output command (`src/Command/ShowFilesCommand.php`)
 ```shell
 bin/console show_files
 ```
 
-Команда для имитации боя (`src/Command/ShowFilesCommand.php`)
+Combat simulation command (`src/Command/ShowFilesCommand.php`)
 ```shell
 bin/console fight
 ```
+
